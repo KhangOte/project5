@@ -5,7 +5,8 @@
         <classes>
             <class name="Test.MainTest">
                 <methods>
-                    <include name="testLogin"/>
+<!--                    <include name="testLogin"/>-->
+                    <include name="testBlogPage"/>
                 </methods>
             </class>
         </classes>

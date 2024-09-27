@@ -1,5 +1,7 @@
 package Test;
 
+import Page.BlogPage;
+import Page.ChangeTab;
 import Page.LoginPage;
 import Page.TopMenu;
 import Report.ExtentReportManager;
@@ -10,8 +12,7 @@ import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 
-import static Report.ExtentReportManager.captureScreenshot;
-import static Report.ExtentReportManager.getScreenshotName;
+import static Report.ExtentReportManager.*;
 
 @Listeners(TestListener.class)
 public class MainTest extends BaseTest {
@@ -45,6 +46,25 @@ public class MainTest extends BaseTest {
         Assert.assertEquals(resultLoginMsg, msgLoginSuccess);
     }
 
+    @Test
+    public void testBlogPage() throws InterruptedException {
+        TopMenu topMenu = new TopMenu(driver);
+        BlogPage blogPage = topMenu.clickBlogPage();
+        ChangeTab changeTab = new ChangeTab(driver);
+        changeTab.switchTab(1);
+        blogPage.clickAll();
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+        blogPage.clickWeather();
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+        blogPage.clickAgro();
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+        blogPage.clickTechnologies();
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+        blogPage.clickPlatform();
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+        blogPage.clickTeamCompany();
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+    }
 
 
     @AfterMethod

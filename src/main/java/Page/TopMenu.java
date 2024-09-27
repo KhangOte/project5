@@ -14,4 +14,10 @@ public class TopMenu {
         driver.findElement(By.linkText("Sign in")).click();
         return new LoginPage(driver);
     }
+
+    public BlogPage clickBlogPage(){
+        driver.findElement(By.linkText("Blog")).click();
+        return new BlogPage(driver);
+    }
+
 }

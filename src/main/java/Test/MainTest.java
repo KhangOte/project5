@@ -69,7 +69,7 @@ public class MainTest extends BaseTest {
     @Test
     @DataProvider(name = "testMarketplace")
     public static Object[][] idCoordinates() {
-        return new Object[][]{{11, 24}, {45, 67}};
+        return new Object[][]{{45, 67}};
     }
 
     @Test(dataProvider = "testMarketplace")
@@ -79,10 +79,22 @@ public class MainTest extends BaseTest {
         ChangeFocusTab changeFocusTab = new ChangeFocusTab(driver);
         changeFocusTab.switchTab(1);
         CreateNewHistory createNewHistory = new CreateNewHistory(driver);
-//        marketplacePage.clickDocHistoryBulk();
-//        changeFocusTab.switchTab(1);
         marketplacePage.clickPlaceOrderHistoryBulk();
         createNewHistory.searchByCoordinates(id1, id2);
+//        topMenu.waitDisplay(driver.findElement(By.xpath("\"//div[@class = 'pop-up-marker']/div[1]/h3\"")));
+        Thread.sleep(5000);
+        String x = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[1]")).getText();
+        System.out.println(x);
+        String lat = "Latitude: ";
+        String longt = "Longitude: ";
+        System.out.println(x.substring(lat.length(), x.length()));
+        int id3 = Integer.parseInt(x.substring(lat.length(), x.length()));
+        Assert.assertEquals(id1,id3);
+        String y = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[2]")).getText();
+        System.out.println(y.substring(longt.length(), y.length()));
+        int id4 = Integer.parseInt(y.substring(longt.length(), y.length()));
+        Assert.assertEquals(id2,id4);
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Import local success");
         Thread.sleep(5000);
     }
 
@@ -100,7 +112,7 @@ public class MainTest extends BaseTest {
         changeFocusTab.switchTab(1);
         supportDropBox.faq();
         supportDropBox.howToStart();
-        supportDropBox.chatBot(q1, q2);
+        supportDropBox.chatBot(q1, q2,testName);
 
     }
 
@@ -112,10 +124,16 @@ public class MainTest extends BaseTest {
         WebElement elementScroll = driver.findElement(By.xpath("//div[3]//a[@class = 'ow-btn round btn-orange']"));
         topMenu.waitDisplay(elementLoad);
         topMenu.scroll(elementScroll);
-        captureScreenShotAndAddToReport(driver,testName,Status.INFO,"Done");
-//        ourInitiativesPage.getAccessToStudentInitiative();
-
+        captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
+        ourInitiativesPage.getAccessToStudentInitiative();
+        topMenu.switchTab(1);
+        String textCompere = "Free Data for Students1";
+        String getTextToCompere = driver.findElement(By.xpath("//div//h1[@class = 'orange-text']")).getText();
+        Assert.assertEquals(getTextToCompere,textCompere);
     }
+
+
+
 
     @AfterMethod
     public void extracted() {

@@ -1,5 +1,6 @@
 package Page;
 
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.time.Duration;
+
+import static Report.ExtentReportManager.captureScreenShotAndAddToReport;
 
 public class SupportDropBox {
     WebDriver driver;
@@ -24,16 +27,18 @@ public class SupportDropBox {
         PageFactory.initElements(driver, this);
     }
 
-    public void chatBot(String q1, String q2) throws InterruptedException {
+    public void chatBot(String q1, String q2,String name) throws InterruptedException {
         supportDropDown.click();
         chatBotFunc.click();
         Thread.sleep(5000);
         chatBox.sendKeys(q1);
         chatBox.sendKeys(Keys.RETURN);
         Thread.sleep(10000);
+        captureScreenShotAndAddToReport(driver,name, Status.INFO,"");
         chatBox.sendKeys(q2);
         chatBox.sendKeys(Keys.RETURN);
         Thread.sleep(10000);
+        captureScreenShotAndAddToReport(driver,name, Status.INFO,"");
     }
 
     public void faq() {

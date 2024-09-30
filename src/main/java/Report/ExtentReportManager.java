@@ -43,7 +43,7 @@ public class ExtentReportManager {
         captureScreenshot(driver, filename);
         System.out.println("capture screenshot");
         testCaseReport.addScreenCaptureFromPath(createName).log(Status.INFO, reportMsg);
-        System.out.println("addPicture");
+        System.out.println("add Picture");
     }
 
     public static String getCurrentTime() {

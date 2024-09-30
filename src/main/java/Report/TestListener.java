@@ -16,14 +16,14 @@ public class TestListener implements ITestListener {
         String screenshotName = getScreenshotName(result.getName());
         captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
         testCaseReport.addScreenCaptureFromPath(screenshotName)
-                .log(Status.FAIL, "Login failed");
+                .log(Status.FAIL, "Test failed");
     }
 
     public void onTestSuccess(ITestResult result) {
         String screenshotName = getScreenshotName(result.getName());
         captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
         testCaseReport.addScreenCaptureFromPath(screenshotName)
-                .log(Status.PASS, "Login successfully");
+                .log(Status.PASS, "Test successfully");
     }
 
     public void onFinish(ITestContext context) {

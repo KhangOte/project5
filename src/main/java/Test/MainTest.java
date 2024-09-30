@@ -114,7 +114,6 @@ public class MainTest extends BaseTest {
         topMenu.scroll(elementScroll);
         captureScreenShotAndAddToReport(driver,testName,Status.INFO,"Done");
 //        ourInitiativesPage.getAccessToStudentInitiative();
-//        topMenu.switchTab(1);
 
     }
 

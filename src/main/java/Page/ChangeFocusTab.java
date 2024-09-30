@@ -1,11 +1,10 @@
 package Page;
 
-import Test.BaseTest;
 import org.openqa.selenium.WebDriver;
 
-public class ChangeTab {
+public class ChangeFocusTab {
     WebDriver driver;
-    public ChangeTab(WebDriver driver){
+    public ChangeFocusTab(WebDriver driver){
         this.driver = driver;
     }
 

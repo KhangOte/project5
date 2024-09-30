@@ -6,7 +6,10 @@
             <class name="Test.MainTest">
                 <methods>
 <!--                    <include name="testLogin"/>-->
-                    <include name="testBlogPage"/>
+<!--                    <include name="testBlogPage"/>-->
+<!--                    <include name="testMarketplace"/>-->
+<!--                    <include name="testSupport"/>-->
+                    <include name="testOurInitiatives"/>
                 </methods>
             </class>
         </classes>

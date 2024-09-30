@@ -1,15 +1,15 @@
 package Test;
 
-import Page.BlogPage;
-import Page.ChangeTab;
-import Page.LoginPage;
-import Page.TopMenu;
-import Report.ExtentReportManager;
+import Page.*;
 import Report.TestListener;
 import com.aventstack.extentreports.Status;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import javax.swing.*;
 import java.lang.reflect.Method;
 
 import static Report.ExtentReportManager.*;
@@ -47,11 +47,11 @@ public class MainTest extends BaseTest {
     }
 
     @Test
-    public void testBlogPage() throws InterruptedException {
+    public void testBlogPage() {
         TopMenu topMenu = new TopMenu(driver);
-        BlogPage blogPage = topMenu.clickBlogPage();
-        ChangeTab changeTab = new ChangeTab(driver);
-        changeTab.switchTab(1);
+        BlogPage blogPage = topMenu.clickBlogButton();
+        ChangeFocusTab changeFocusTab = new ChangeFocusTab(driver);
+        changeFocusTab.switchTab(1);
         blogPage.clickAll();
         captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
         blogPage.clickWeather();
@@ -66,6 +66,57 @@ public class MainTest extends BaseTest {
         captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
     }
 
+    @Test
+    @DataProvider(name = "testMarketplace")
+    public static Object[][] idCoordinates() {
+        return new Object[][]{{11, 24}, {45, 67}};
+    }
+
+    @Test(dataProvider = "testMarketplace")
+    public void testMarketplace(int id1, int id2) throws InterruptedException {
+        TopMenu topMenu = new TopMenu(driver);
+        MarketplacePage marketplacePage = topMenu.clickMarketplaceButton();
+        ChangeFocusTab changeFocusTab = new ChangeFocusTab(driver);
+        changeFocusTab.switchTab(1);
+        CreateNewHistory createNewHistory = new CreateNewHistory(driver);
+//        marketplacePage.clickDocHistoryBulk();
+//        changeFocusTab.switchTab(1);
+        marketplacePage.clickPlaceOrderHistoryBulk();
+        createNewHistory.searchByCoordinates(id1, id2);
+        Thread.sleep(5000);
+    }
+
+    @Test
+    @DataProvider(name = "testSupport")
+    public static Object[][] questionChatBot() {
+        return new Object[][]{{"What is openweather?", "how can i contact with you?"}, {"How to get info weather from page?", "How to create new account?"}};
+    }
+
+    @Test(dataProvider = "testSupport")
+    public void testSupport(String q1, String q2) throws InterruptedException {
+        SupportDropBox supportDropBox = new SupportDropBox(driver);
+        ChangeFocusTab changeFocusTab = new ChangeFocusTab(driver);
+        supportDropBox.askQuestion();
+        changeFocusTab.switchTab(1);
+        supportDropBox.faq();
+        supportDropBox.howToStart();
+        supportDropBox.chatBot(q1, q2);
+
+    }
+
+    @Test
+    public void testOurInitiatives() {
+        TopMenu topMenu = new TopMenu(driver);
+        OurInitiativesPage ourInitiativesPage = topMenu.clickOurInitiatives();
+        WebElement elementLoad = driver.findElement(By.xpath("//div[@class = 'section main-banner our-initiatives-banner']"));
+        WebElement elementScroll = driver.findElement(By.xpath("//div[3]//a[@class = 'ow-btn round btn-orange']"));
+        topMenu.waitDisplay(elementLoad);
+        topMenu.scroll(elementScroll);
+        captureScreenShotAndAddToReport(driver,testName,Status.INFO,"Done");
+//        ourInitiativesPage.getAccessToStudentInitiative();
+//        topMenu.switchTab(1);
+
+    }
 
     @AfterMethod
     public void extracted() {

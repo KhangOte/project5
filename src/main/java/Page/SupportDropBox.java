@@ -27,6 +27,9 @@ public class SupportDropBox {
         PageFactory.initElements(driver, this);
     }
 
+    /* chatBot
+    * enter q1
+    * */
     public void chatBot(String q1, String q2,String name) throws InterruptedException {
         supportDropDown.click();
         chatBotFunc.click();
@@ -34,11 +37,11 @@ public class SupportDropBox {
         chatBox.sendKeys(q1);
         chatBox.sendKeys(Keys.RETURN);
         Thread.sleep(10000);
-        captureScreenShotAndAddToReport(driver,name, Status.INFO,"");
-        chatBox.sendKeys(q2);
-        chatBox.sendKeys(Keys.RETURN);
-        Thread.sleep(10000);
-        captureScreenShotAndAddToReport(driver,name, Status.INFO,"");
+//        captureScreenShotAndAddToReport(driver,name, Status.INFO,"");
+//        chatBox.sendKeys(q2);
+//        chatBox.sendKeys(Keys.RETURN);
+//        Thread.sleep(10000);
+//        captureScreenShotAndAddToReport(driver,name, Status.INFO,"");
     }
 
     public void faq() {

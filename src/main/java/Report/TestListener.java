@@ -26,8 +26,11 @@ public class TestListener implements ITestListener {
                 .log(Status.PASS, "Test successfully");
     }
 
-    public void onFinish(ITestContext context) {
-        System.out.println("======== Finish test========");
-
-    }
+//    public void onFinish(ITestContext context) {
+//        System.out.println("======== Finish test " + context. + " ========");
+//
+//    }
+//    public void onStart(ITestContext context) {
+//        System.out.println("======== Start " + context.getName() + " ========");
+//    }
 }

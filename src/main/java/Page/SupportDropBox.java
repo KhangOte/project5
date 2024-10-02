@@ -31,9 +31,14 @@ public class SupportDropBox {
     * enter q1
     * */
     public void chatBot(String q1, String q2,String name) throws InterruptedException {
+
+        TopMenu topMenu = new TopMenu(driver);
+
         supportDropDown.click();
         chatBotFunc.click();
-        Thread.sleep(5000);
+        WebElement welcomeMsg = driver.findElement(By.xpath("//div[@class = 'flex flex-col gap-y-2 p-3']/div[1]/div[1]"));
+        topMenu.waitDisplay(welcomeMsg);
+//        Thread.sleep(5000);
         chatBox.sendKeys(q1);
         chatBox.sendKeys(Keys.RETURN);
         Thread.sleep(10000);

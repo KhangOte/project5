@@ -16,8 +16,8 @@ public class Wait {
 
     public void waitDisplay(WebElement waitValue) {
         org.openqa.selenium.support.ui.Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(10))
-                .pollingEvery(Duration.ofSeconds(2));
+                .withTimeout(Duration.ofSeconds(12))
+                .pollingEvery(Duration.ofSeconds(3));
         wait.until(w -> waitValue.isDisplayed());
     }
 }

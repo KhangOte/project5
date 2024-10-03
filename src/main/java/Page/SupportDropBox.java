@@ -36,8 +36,9 @@ public class SupportDropBox {
 
         supportDropDown.click();
         chatBotFunc.click();
-        WebElement welcomeMsg = driver.findElement(By.xpath("//div[@class = 'flex flex-col gap-y-2 p-3']/div[1]/div[1]"));
-        topMenu.waitDisplay(welcomeMsg);
+//        WebElement welcomeMsg = driver.findElement(By.xpath("//div[@class = 'flex flex-col gap-y-2 p-3']/div[1]/div[1]"));
+        String welcomeMsgLocator = "//div[@class = 'flex flex-col gap-y-2 p-3']/div[1]/div[1]";
+        topMenu.waitForElementDisplay(welcomeMsgLocator);
 //        Thread.sleep(5000);
         chatBox.sendKeys(q1);
         chatBox.sendKeys(Keys.RETURN);

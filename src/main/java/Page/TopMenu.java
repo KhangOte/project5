@@ -5,14 +5,15 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
 import java.time.Duration;
 
-public class TopMenu {
-    WebDriver driver;
-
+public class TopMenu extends BasePage{
+//    WebDriver driver;
+//
     public TopMenu(WebDriver driver) {
-        this.driver = driver;
+        super();
     }
 
     public LoginPage clickLoginButton() {
@@ -44,10 +45,5 @@ public class TopMenu {
         driver.switchTo().window(windowHandle[numberTab].toString());
     }
 
-    public void waitDisplay(WebElement waitValue) {
-        org.openqa.selenium.support.ui.Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(10))
-                .pollingEvery(Duration.ofSeconds(2));
-        wait.until(w -> waitValue.isDisplayed());
-    }
+
 }

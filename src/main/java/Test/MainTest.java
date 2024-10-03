@@ -4,6 +4,7 @@ import Page.*;
 import Report.TestListener;
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -142,9 +143,9 @@ public class MainTest extends BaseTest {
 
         TopMenu topMenu = new TopMenu(driver);
         OurInitiativesPage ourInitiativesPage = topMenu.clickOurInitiatives();
-        WebElement elementLoad = driver.findElement(By.xpath("//div[@class = 'section main-banner our-initiatives-banner']"));
+        String elementLoad = "//div[@class = 'section main-banner our-initiatives-banner']";
         WebElement elementScroll = driver.findElement(By.xpath("//div[3]//a[@class = 'ow-btn round btn-orange']"));
-        topMenu.waitDisplay(elementLoad);
+        topMenu.waitForElementDisplay(elementLoad);
         topMenu.scroll(elementScroll);
         captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
         ourInitiativesPage.getAccessToStudentInitiative();
@@ -153,6 +154,33 @@ public class MainTest extends BaseTest {
         Assert.assertEquals(getTextToCompere,textCompere); // => check if the correct page loaded
     }
 
+    @Test
+    public void testSearchFunc()throws InterruptedException{
+        String redundantText = ", VN";
+        String keySearch = "ho chi minh";
+        String searchBoxLocator = "//li[@id = 'desktop-menu']/form/input[1]";
+        String resultSearchLocator = "//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a";
+
+        TopMenu topMenu = new TopMenu(driver);
+
+        WebElement searchBox = driver.findElement(By.xpath("//li[@id = 'desktop-menu']/form/input[1]"));
+        topMenu.waitForElementDisplay(searchBoxLocator);
+        searchBox.sendKeys(keySearch);
+        searchBox.sendKeys(Keys.RETURN);
+
+        WebElement resultSearch = driver.findElement(By.xpath("//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a"));
+        topMenu.waitForElementDisplay(resultSearchLocator);
+        String textSearchResult = resultSearch.getText();
+        String textToCheck = getTextToCheck(textSearchResult,redundantText).toLowerCase();
+        System.out.println(textToCheck);
+        Assert.assertEquals(keySearch,textToCheck);
+
+    }
+
+    private String getTextToCheck(String text1, String text2) {
+        int eleToCompere = text1.length() - text2.length();
+        return text1.substring(0,eleToCompere );
+    }
 
 
 

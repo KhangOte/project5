@@ -13,17 +13,19 @@ import static Test.BaseTest.testCaseReport;
 public class TestListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
+        String msgFail = result.getName() + " is failed";
         String screenshotName = getScreenshotName(result.getName());
         captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
         testCaseReport.addScreenCaptureFromPath(screenshotName)
-                .log(Status.FAIL, "Test failed");
+                .log(Status.FAIL,  msgFail);
     }
 
     public void onTestSuccess(ITestResult result) {
+        String msgSuccess = result.getName() + " is successful";
         String screenshotName = getScreenshotName(result.getName());
         captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
         testCaseReport.addScreenCaptureFromPath(screenshotName)
-                .log(Status.PASS, "Test successfully");
+                .log(Status.PASS, msgSuccess);
     }
 
 //    public void onFinish(ITestContext context) {

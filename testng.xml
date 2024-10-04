@@ -7,10 +7,10 @@
                 <methods>
 <!--                    <include name="testLogin"/>-->
 <!--                    <include name="testBlogPage"/>-->
-<!--                    <include name="testMarketplace"/>-->
+                    <include name="testMarketplace"/>
 <!--                    <include name="testSupport"/>-->
 <!--                    <include name="testOurInitiatives"/>-->
-                    <include name="testSearchFunc"/>
+<!--                    <include name="testSearchFunc"/>-->
                 </methods>
             </class>
         </classes>

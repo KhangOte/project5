@@ -70,7 +70,7 @@ public class MainTest extends BaseTest {
     @Test
     @DataProvider(name = "testMarketplace")
     public static Object[][] idCoordinates() {
-        return new Object[][]{{45, 67}};
+        return new Object[][]{{45, 67},{23,27}};
     }
 
     @Test(dataProvider = "testMarketplace")
@@ -86,15 +86,18 @@ public class MainTest extends BaseTest {
         CreateNewHistory createNewHistory = new CreateNewHistory(driver);
         marketplacePage.clickPlaceOrderHistoryBulk();
         createNewHistory.searchByCoordinates(id1, id2);
-        Thread.sleep(5000);
+        String popUpMarkerLocator = "//div[@class = 'map-container']/div[1]/div[1]";
+        WebElement latLonPopup = topMenu.waitForElementDisplay(driver,popUpMarkerLocator);
 
-        String x = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[1]")).getText();
+//        String x = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[1]")).getText();
+        String x = latLonPopup.findElement(By.tagName("p")).getText(); // => findElement "Longitude" in string "latLonPopup" after that get fist element
         System.out.println(x);
         System.out.println(getLatLon(x, lat));
         int id3 = Integer.parseInt(getLatLon(x, lat));
         Assert.assertEquals(id1,id3); // => check id display
 
-        String y = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[2]")).getText();
+//        String y = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[2]")).getText();
+        String y = latLonPopup.findElements(By.tagName("p")).get(1).getText();// => findElement "Longitude" in string "latLonPopup" after that get second element
         System.out.println(getLatLon(y, longt));
         int id4 = Integer.parseInt(getLatLon(y, longt));
         Assert.assertEquals(id2,id4); // => check id display
@@ -145,7 +148,7 @@ public class MainTest extends BaseTest {
         OurInitiativesPage ourInitiativesPage = topMenu.clickOurInitiatives();
         String elementLoad = "//div[@class = 'section main-banner our-initiatives-banner']";
         WebElement elementScroll = driver.findElement(By.xpath("//div[3]//a[@class = 'ow-btn round btn-orange']"));
-        topMenu.waitForElementDisplay(elementLoad);
+        topMenu.waitForElementDisplay(driver, elementLoad);
         topMenu.scroll(elementScroll);
         captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Done");
         ourInitiativesPage.getAccessToStudentInitiative();
@@ -164,12 +167,12 @@ public class MainTest extends BaseTest {
         TopMenu topMenu = new TopMenu(driver);
 
         WebElement searchBox = driver.findElement(By.xpath("//li[@id = 'desktop-menu']/form/input[1]"));
-        topMenu.waitForElementDisplay(searchBoxLocator);
+        topMenu.waitForElementDisplay(driver, searchBoxLocator);
         searchBox.sendKeys(keySearch);
         searchBox.sendKeys(Keys.RETURN);
 
-        WebElement resultSearch = driver.findElement(By.xpath("//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a"));
-        topMenu.waitForElementDisplay(resultSearchLocator);
+//        WebElement resultSearch = driver.findElement(By.xpath("//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a"));
+        WebElement resultSearch = topMenu.waitForElementDisplay(driver, resultSearchLocator);
         String textSearchResult = resultSearch.getText();
         String textToCheck = getTextToCheck(textSearchResult,redundantText).toLowerCase();
         System.out.println(textToCheck);

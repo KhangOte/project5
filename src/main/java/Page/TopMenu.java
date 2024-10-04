@@ -10,10 +10,10 @@ import org.openqa.selenium.support.ui.Wait;
 import java.time.Duration;
 
 public class TopMenu extends BasePage{
-//    WebDriver driver;
+    WebDriver driver;
 //
     public TopMenu(WebDriver driver) {
-        super();
+        this.driver = driver;
     }
 
     public LoginPage clickLoginButton() {

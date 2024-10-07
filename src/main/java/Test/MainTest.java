@@ -31,7 +31,7 @@ public class MainTest extends BaseTest {
     @DataProvider(name = "testLogin")
     public static Object[][] accountForTestLogin() {
 //        return new Object[][]{{"minionmatbua@gmail", "123456"}, {"minionmatbua@gmail.com", "12345678"}};
-        return new Object[][]{{"minionmatbua@gmail.com", "12345678"}};
+        return new Object[][]{{"minionmatbua@gmail.com", "1234567"}};
     }
 
     @Test(dataProvider = "testLogin")
@@ -70,7 +70,7 @@ public class MainTest extends BaseTest {
     @Test
     @DataProvider(name = "testMarketplace")
     public static Object[][] idCoordinates() {
-        return new Object[][]{{45, 67},{23,27}};
+        return new Object[][]{{45, 67}, {23, 27}};
     }
 
     @Test(dataProvider = "testMarketplace")
@@ -78,6 +78,7 @@ public class MainTest extends BaseTest {
 
         String lat = "Latitude: ";
         String longt = "Longitude: ";
+        String popUpMarkerLocator = "//div[@class = 'map-container']/div[1]/div[1]";
 
         TopMenu topMenu = new TopMenu(driver);
         MarketplacePage marketplacePage = topMenu.clickMarketplaceButton();
@@ -86,21 +87,19 @@ public class MainTest extends BaseTest {
         CreateNewHistory createNewHistory = new CreateNewHistory(driver);
         marketplacePage.clickPlaceOrderHistoryBulk();
         createNewHistory.searchByCoordinates(id1, id2);
-        String popUpMarkerLocator = "//div[@class = 'map-container']/div[1]/div[1]";
-        WebElement latLonPopup = topMenu.waitForElementDisplay(driver,popUpMarkerLocator);
 
-//        String x = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[1]")).getText();
+        WebElement latLonPopup = topMenu.waitForElementDisplay(driver, popUpMarkerLocator);
+
         String x = latLonPopup.findElement(By.tagName("p")).getText(); // => findElement "Longitude" in string "latLonPopup" after that get fist element
         System.out.println(x);
         System.out.println(getLatLon(x, lat));
         int id3 = Integer.parseInt(getLatLon(x, lat));
-        Assert.assertEquals(id1,id3); // => check id display
+        Assert.assertEquals(id1, id3); // => check id display
 
-//        String y = driver.findElement(By.xpath("//div[@class = 'pop-up-content']//div[1]/p[2]")).getText();
         String y = latLonPopup.findElements(By.tagName("p")).get(1).getText();// => findElement "Longitude" in string "latLonPopup" after that get second element
         System.out.println(getLatLon(y, longt));
         int id4 = Integer.parseInt(getLatLon(y, longt));
-        Assert.assertEquals(id2,id4); // => check id display
+        Assert.assertEquals(id2, id4); // => check id display
 
         captureScreenShotAndAddToReport(driver, testName, Status.INFO, "Import local display correctly");
         Thread.sleep(5000);
@@ -113,7 +112,7 @@ public class MainTest extends BaseTest {
     @Test
     @DataProvider(name = "testSupport")
     public static Object[][] questionChatBot() {
-        return new Object[][]{{"What is that?","what is OpenWeather?"}};
+        return new Object[][]{{"What is that?", "what is OpenWeather?"}};
     }
 
     @Test(dataProvider = "testSupport")
@@ -125,28 +124,29 @@ public class MainTest extends BaseTest {
         TopMenu topMenu = new TopMenu(driver);
         SupportDropBox supportDropBox = new SupportDropBox(driver);
         LoginPage loginPage = topMenu.clickLoginButton();
-        loginPage.login(email,pwd);
+        loginPage.login(email, pwd);
         supportDropBox.askQuestion();
         WebElement linkContainEmail = driver.findElement(By.xpath("//div//input[@class = 'form-control string email required disabled' and @name = 'question_form[email]']"));
         String getEmail = linkContainEmail.getAttribute("value");
-        System.out.println("email: "+ getEmail);
-        Assert.assertEquals(getEmail,email); // => check using email for AskQuestion page correct with user email
+        System.out.println("email: " + getEmail);
+        Assert.assertEquals(getEmail, email); // => check using email for AskQuestion page correct with user email
 
         supportDropBox.faq();
-        Assert.assertEquals(driver.findElement(By.xpath("//div//h1[@class = 'breadcrumb-title']")).getText(),nameFAQPage);// => confirm name page FQA
-        supportDropBox.chatBot(q1, q2,testName);
+        Assert.assertEquals(driver.findElement(By.xpath("//div//h1[@class = 'breadcrumb-title']")).getText(), nameFAQPage);// => confirm name page FQA
+        supportDropBox.chatBot(q1, q2, testName);
         String answerFail = "I only provide documentation support.";
         String getAnswer = driver.findElement(By.xpath("//div[@class = 'flex flex-col h-full grow rounded-xl border bg-white shadow-lg']/div[2]/div/div[3]/div[1]")).getText();
-        Assert.assertEquals(getAnswer,answerFail); // => check answer of chatbot when question is wrong
+        Assert.assertEquals(getAnswer, answerFail); // => check answer of chatbot when question is wrong
     }
 
     @Test
     public void testOurInitiatives() {
+
         String textCompere = "Free Data for Students1";
+        String elementLoad = "//div[@class = 'section main-banner our-initiatives-banner']";
 
         TopMenu topMenu = new TopMenu(driver);
         OurInitiativesPage ourInitiativesPage = topMenu.clickOurInitiatives();
-        String elementLoad = "//div[@class = 'section main-banner our-initiatives-banner']";
         WebElement elementScroll = driver.findElement(By.xpath("//div[3]//a[@class = 'ow-btn round btn-orange']"));
         topMenu.waitForElementDisplay(driver, elementLoad);
         topMenu.scroll(elementScroll);
@@ -154,13 +154,17 @@ public class MainTest extends BaseTest {
         ourInitiativesPage.getAccessToStudentInitiative();
         topMenu.switchTab(1);
         String getTextToCompere = driver.findElement(By.xpath("//div//h1[@class = 'orange-text']")).getText();
-        Assert.assertEquals(getTextToCompere,textCompere); // => check if the correct page loaded
+        Assert.assertEquals(getTextToCompere, textCompere); // => check if the correct page loaded
     }
 
-    @Test
-    public void testSearchFunc()throws InterruptedException{
+    @DataProvider(name = "testSearchFunc")
+    public static Object[][] localToTestSearchFunc(){
+        return new Object[][]{{"ho chi minh"},{"ha noi"}};
+    }
+
+    @Test(dataProvider = "testSearchFunc")
+    public void testSearchFunc(String keySearch) {
         String redundantText = ", VN";
-        String keySearch = "ho chi minh";
         String searchBoxLocator = "//li[@id = 'desktop-menu']/form/input[1]";
         String resultSearchLocator = "//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a";
 
@@ -171,20 +175,18 @@ public class MainTest extends BaseTest {
         searchBox.sendKeys(keySearch);
         searchBox.sendKeys(Keys.RETURN);
 
-//        WebElement resultSearch = driver.findElement(By.xpath("//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a"));
         WebElement resultSearch = topMenu.waitForElementDisplay(driver, resultSearchLocator);
         String textSearchResult = resultSearch.getText();
-        String textToCheck = getTextToCheck(textSearchResult,redundantText).toLowerCase();
+        String textToCheck = getTextToCheck(textSearchResult, redundantText).toLowerCase();
         System.out.println(textToCheck);
-        Assert.assertEquals(keySearch,textToCheck);
+        Assert.assertEquals(keySearch, textToCheck);
 
     }
 
     private String getTextToCheck(String text1, String text2) {
         int eleToCompere = text1.length() - text2.length();
-        return text1.substring(0,eleToCompere );
+        return text1.substring(0, eleToCompere);
     }
-
 
 
     @AfterMethod

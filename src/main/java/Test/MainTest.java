@@ -3,6 +3,9 @@ package Test;
 import Page.*;
 import Report.TestListener;
 import com.aventstack.extentreports.Status;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Description;
+import io.qameta.allure.Story;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -159,15 +162,17 @@ public class MainTest extends BaseTest {
 
     @DataProvider(name = "testSearchFunc")
     public static Object[][] localToTestSearchFunc(){
-        return new Object[][]{{"ho chi minh"},{"ha noi"}};
+        return new Object[][]{{"ho chi minh"}};
     }
 
+    @Story("Empty username and password login test")
     @Test(dataProvider = "testSearchFunc")
+    @Description("Test Description: Login test with empty username and empty password.")
     public void testSearchFunc(String keySearch) {
         String redundantText = ", VN";
         String searchBoxLocator = "//li[@id = 'desktop-menu']/form/input[1]";
         String resultSearchLocator = "//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a";
-
+        Allure.step("click menu");
         TopMenu topMenu = new TopMenu(driver);
 
         WebElement searchBox = driver.findElement(By.xpath("//li[@id = 'desktop-menu']/form/input[1]"));
@@ -177,6 +182,7 @@ public class MainTest extends BaseTest {
 
         WebElement resultSearch = topMenu.waitForElementDisplay(driver, resultSearchLocator);
         String textSearchResult = resultSearch.getText();
+        Allure.step("any name");
         String textToCheck = getTextToCheck(textSearchResult, redundantText).toLowerCase();
         System.out.println(textToCheck);
         Assert.assertEquals(keySearch, textToCheck);

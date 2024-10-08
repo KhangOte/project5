@@ -3,12 +3,17 @@ package Report;
 import Test.BaseTest;
 import com.aventstack.extentreports.Status;
 import io.qameta.allure.Allure;
+import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.io.File;
+import java.io.InputStream;
+
 import static Report.ExtentReportManager.captureScreenshot;
 import static Report.ExtentReportManager.getScreenshotName;
+import static Test.BaseTest.driver;
 import static Test.BaseTest.testCaseReport;
 
 public class TestListener implements ITestListener {
@@ -19,8 +24,15 @@ public class TestListener implements ITestListener {
 //        captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
 //        testCaseReport.addScreenCaptureFromPath(screenshotName)
 //                .log(Status.FAIL,  msgFail);
+
         AllureReportManager.saveTextLog(result.getName() + "is failed");
-        AllureReportManager.saveScreenshotPNG();
+        File sc = AllureReportManager.saveScreenshotPNG(((BaseTest) result.getInstance()).driver);
+        try {
+            Allure.addAttachment("Page screenshot", FileUtils.openInputStream(sc));
+        } catch (Exception ex) {
+            
+        }
+//        Allure.addAttachment("Search results" );
     }
 
     public void onTestSuccess(ITestResult result) {
@@ -30,7 +42,7 @@ public class TestListener implements ITestListener {
 //        testCaseReport.addScreenCaptureFromPath(screenshotName)
 //                .log(Status.PASS, msgSuccess);
         AllureReportManager.saveTextLog(result.getName() + "is successful");
-        AllureReportManager.saveScreenshotPNG();
+        AllureReportManager.saveScreenshotPNG(driver);
     }
 
 //    public void onFinish(ITestContext context) {

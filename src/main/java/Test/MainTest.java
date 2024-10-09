@@ -1,22 +1,23 @@
 package Test;
 
 import Page.*;
+import Report.AllureReportManager;
 import Report.TestListener;
 import com.aventstack.extentreports.Status;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import static Report.ExtentReportManager.*;
 
-@Listeners(TestListener.class)
+@Listeners({TestListener.class})
 public class MainTest extends BaseTest {
 
     private String testName;
@@ -172,7 +173,9 @@ public class MainTest extends BaseTest {
         String redundantText = ", VN";
         String searchBoxLocator = "//li[@id = 'desktop-menu']/form/input[1]";
         String resultSearchLocator = "//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a";
-        Allure.step("click menu");
+//        Allure.step("click menu");
+        AllureReportManager.saveTextLog("allure log");
+        AllureReportManager.saveScreenshotPNG(driver);
         TopMenu topMenu = new TopMenu(driver);
 
         WebElement searchBox = driver.findElement(By.xpath("//li[@id = 'desktop-menu']/form/input[1]"));
@@ -182,7 +185,8 @@ public class MainTest extends BaseTest {
 
         WebElement resultSearch = topMenu.waitForElementDisplay(driver, resultSearchLocator);
         String textSearchResult = resultSearch.getText();
-        Allure.step("any name");
+
+
         String textToCheck = getTextToCheck(textSearchResult, redundantText).toLowerCase();
         System.out.println(textToCheck);
         Assert.assertEquals(keySearch, textToCheck);

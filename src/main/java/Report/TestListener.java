@@ -4,6 +4,8 @@ import Test.BaseTest;
 import com.aventstack.extentreports.Status;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -25,12 +27,16 @@ public class TestListener implements ITestListener {
 //        testCaseReport.addScreenCaptureFromPath(screenshotName)
 //                .log(Status.FAIL,  msgFail);
 
+        System.out.println("onTestFailure!!!!!");
+
+        // allure report cant be exec in testng listener via https://github.com/biczomate/allure-testng7.5-attachment-example
         AllureReportManager.saveTextLog(result.getName() + "is failed");
-        File sc = AllureReportManager.saveScreenshotPNG(((BaseTest) result.getInstance()).driver);
+
         try {
-            Allure.addAttachment("Page screenshot", FileUtils.openInputStream(sc));
+            AllureReportManager.saveScreenshotPNG(((BaseTest) result.getInstance()).driver);
+            System.out.println("onTestFailure!!!!! => add attachment");
         } catch (Exception ex) {
-            
+            System.out.println("onTestFailure!!!!! => exception");
         }
 //        Allure.addAttachment("Search results" );
     }
@@ -41,6 +47,7 @@ public class TestListener implements ITestListener {
 //        captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
 //        testCaseReport.addScreenCaptureFromPath(screenshotName)
 //                .log(Status.PASS, msgSuccess);
+        System.out.println("onTestSuccess");
         AllureReportManager.saveTextLog(result.getName() + "is successful");
         AllureReportManager.saveScreenshotPNG(driver);
     }

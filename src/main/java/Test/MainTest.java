@@ -163,7 +163,7 @@ public class MainTest extends BaseTest {
 
     @DataProvider(name = "testSearchFunc")
     public static Object[][] localToTestSearchFunc(){
-        return new Object[][]{{"ho chi minh"}};
+        return new Object[][]{{"ho chi minh"},{"ha noi"}};
     }
 
     @Story("Empty username and password login test")
@@ -175,7 +175,7 @@ public class MainTest extends BaseTest {
         String resultSearchLocator = "//table[@class = 'table']/tbody/tr[1]/td[2]/b[1]/a";
 //        Allure.step("click menu");
         AllureReportManager.saveTextLog("allure log");
-        AllureReportManager.saveScreenshotPNG(driver);
+
         TopMenu topMenu = new TopMenu(driver);
 
         WebElement searchBox = driver.findElement(By.xpath("//li[@id = 'desktop-menu']/form/input[1]"));
@@ -184,6 +184,7 @@ public class MainTest extends BaseTest {
         searchBox.sendKeys(Keys.RETURN);
 
         WebElement resultSearch = topMenu.waitForElementDisplay(driver, resultSearchLocator);
+        AllureReportManager.saveScreenshotPNG(driver);
         String textSearchResult = resultSearch.getText();
 
 

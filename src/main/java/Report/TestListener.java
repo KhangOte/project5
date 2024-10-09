@@ -21,35 +21,32 @@ import static Test.BaseTest.testCaseReport;
 public class TestListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
-//        String msgFail = result.getName() + " is failed";
-//        String screenshotName = getScreenshotName(result.getName());
-//        captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
-//        testCaseReport.addScreenCaptureFromPath(screenshotName)
-//                .log(Status.FAIL,  msgFail);
+        String msgFail = result.getName() + " is failed";
+        String screenshotName = getScreenshotName(result.getName());
+        captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
+        testCaseReport.addScreenCaptureFromPath(screenshotName)
+                .log(Status.FAIL,  msgFail);
 
         System.out.println("onTestFailure!!!!!");
 
         // allure report cant be exec in testng listener via https://github.com/biczomate/allure-testng7.5-attachment-example
-        AllureReportManager.saveTextLog(result.getName() + "is failed");
-
-        try {
-            AllureReportManager.saveScreenshotPNG(((BaseTest) result.getInstance()).driver);
-            System.out.println("onTestFailure!!!!! => add attachment");
-        } catch (Exception ex) {
-            System.out.println("onTestFailure!!!!! => exception");
-        }
+//        AllureReportManager.saveTextLog(result.getName() + "is failed");
+//
+//        try {
+//            AllureReportManager.saveScreenshotPNG(((BaseTest) result.getInstance()).driver);
+//            System.out.println("onTestFailure!!!!! => add attachment");
+//        } catch (Exception ex) {
+//            System.out.println("onTestFailure!!!!! => exception");
+//        }
 //        Allure.addAttachment("Search results" );
     }
 
     public void onTestSuccess(ITestResult result) {
-//        String msgSuccess = result.getName() + " is successful";
-//        String screenshotName = getScreenshotName(result.getName());
-//        captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
-//        testCaseReport.addScreenCaptureFromPath(screenshotName)
-//                .log(Status.PASS, msgSuccess);
-        System.out.println("onTestSuccess");
-        AllureReportManager.saveTextLog(result.getName() + "is successful");
-        AllureReportManager.saveScreenshotPNG(driver);
+        String msgSuccess = result.getName() + " is successful";
+        String screenshotName = getScreenshotName(result.getName());
+        captureScreenshot(((BaseTest) result.getInstance()).driver, screenshotName);
+        testCaseReport.addScreenCaptureFromPath(screenshotName)
+                .log(Status.PASS, msgSuccess);
     }
 
 //    public void onFinish(ITestContext context) {

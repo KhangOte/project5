@@ -6,11 +6,13 @@ import Report.TestListener;
 import com.aventstack.extentreports.Status;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import io.qameta.allure.Story;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -34,8 +36,8 @@ public class MainTest extends BaseTest {
     @Test
     @DataProvider(name = "testLogin")
     public static Object[][] accountForTestLogin() {
-//        return new Object[][]{{"minionmatbua@gmail", "123456"}, {"minionmatbua@gmail.com", "12345678"}};
-        return new Object[][]{{"minionmatbua@gmail.com", "1234567"}};
+        return new Object[][]{{"minionmatbua@gmail", "123456"}, {"minionmatbua@gmail.com", "12345678"},{"minionmatbua@gmail", "12345678"}};
+//        return new Object[][]{{"minionmatbua@gmail.com", "1234567"}};
     }
 
     @Test(dataProvider = "testLogin")
@@ -43,8 +45,9 @@ public class MainTest extends BaseTest {
         TopMenu topMenu = new TopMenu(driver);
         LoginPage loginPage = topMenu.clickLoginButton();
         loginPage.login(email, password);
-        String msgLoginSuccess = "Signed in successfully1.";
+        String msgLoginSuccess = "Signed in successfully.";
         String resultLoginMsg = loginPage.verifyLogin();
+        AllureReportManager.saveScreenshotPNG(driver);
 //        String nameScreenShot = getScreenshotName(testName);
 //        captureScreenshot(driver, nameScreenShot);
 //        testCaseReport.addScreenCaptureFromPath(nameScreenShot).log(Status.INFO, "Capture screenshot after run testLogin");
@@ -198,6 +201,39 @@ public class MainTest extends BaseTest {
         int eleToCompere = text1.length() - text2.length();
         return text1.substring(0, eleToCompere);
     }
+    @DataProvider (name = "testAPIKey")
+        public static Object[][] keyGenera(){
+        return new Object[][]{{"test"}};
+    }
+    @Test(dataProvider = "testAPIKey")
+    public void testAPIKey(String apiKey){
+        String email = "minionmatbua@gmail.com";
+        String password = "12345678";
+        String testGenera = "abc";
+        String apiMessageSuccess = "API key was created successfully";
+
+//        SoftAssert softAssert = new SoftAssert();
+        TopMenu topMenu = new TopMenu(driver);
+        LoginPage loginPage = topMenu.clickLoginButton();
+        loginPage.login(email,password);
+
+        topMenu.clickUserDropDown();
+        UserDropDown userDropDown = new UserDropDown(driver);
+        userDropDown.clickAPIKey();
+
+        driver.findElement(By.xpath("//input[@placeholder = 'API key name']")).sendKeys(apiKey);
+        driver.findElement(By.xpath("//input[@value= 'Generate']")).click();
+        AllureReportManager.saveScreenshotPNG(driver);
+
+        WebElement keyList = driver.findElement(By.xpath("//table[@class = 'material_table api-keys']"));
+        String getGeneraResult = keyList.findElement(By.xpath("//tr[2]//td[2]")).getText();
+        Assert.assertEquals(testGenera,getGeneraResult);
+
+        driver.findElement(By.xpath("//tr[2]//a[@data-method='delete']")).click();
+        driver.switchTo().alert().accept();
+    }
+
+
 
 
     @AfterMethod

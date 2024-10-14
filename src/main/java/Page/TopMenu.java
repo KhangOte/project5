@@ -45,5 +45,9 @@ public class TopMenu extends BasePage{
         driver.switchTo().window(windowHandle[numberTab].toString());
     }
 
+    public void clickUserDropDown(){
+        driver.findElement(By.xpath("//div[@class = 'inner-user-container']")).click();
+    }
+
 
 }

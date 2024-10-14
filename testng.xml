@@ -10,7 +10,8 @@
 <!--                    <include name="testMarketplace"/>-->
 <!--                    <include name="testSupport"/>-->
 <!--                    <include name="testOurInitiatives"/>-->
-                    <include name="testSearchFunc"/>
+<!--                    <include name="testSearchFunc"/>-->
+                    <include name="testAPIKey"/>
                 </methods>
             </class>
         </classes>

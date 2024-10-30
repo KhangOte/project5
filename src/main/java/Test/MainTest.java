@@ -232,7 +232,34 @@ public class MainTest extends BaseTest {
         driver.findElement(By.xpath("//tr[2]//a[@data-method='delete']")).click();
         driver.switchTo().alert().accept();
     }
+    @DataProvider(name = "checkSearchFunc")
+    public static Object[][] cityToSearch(){
+        return new Object[][]{{"ho chi minh"},{"thu duc"}};
+    }
 
+    @Test(dataProvider = "checkSearchFunc")
+    public void checkSearchFunc(String keySearch){
+        String keyCheck = keySearch;
+        String redundantText = ", VN";
+        TopMenu topMenu = new TopMenu(driver);
+
+        driver.findElement(By.xpath("//input[@placeholder = 'Search city']")).sendKeys(keySearch);
+        driver.findElement(By.xpath("//button[@class = 'button-round dark']")).sendKeys(Keys.RETURN);
+
+        topMenu.waitForElementDisplay(driver,"//ul[@class = 'search-dropdown-menu']//li[1]");
+        AllureReportManager.saveScreenshotPNG(driver);
+        driver.findElement(By.xpath("//ul[@class = 'search-dropdown-menu']//li[1]")).click();
+        AllureReportManager.saveScreenshotPNG(driver);
+
+        String textSearchRS = driver.findElement(By.xpath("//div[@class = 'current-container mobile-padding']//div[1]//h2")).getText();
+
+        String textToCheck = getTextToCheck(textSearchRS,redundantText).toLowerCase();
+        System.out.println(textToCheck);
+        Assert.assertEquals(textToCheck,keyCheck);
+
+
+
+    }
 
 
 

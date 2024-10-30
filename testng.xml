@@ -11,7 +11,8 @@
 <!--                    <include name="testSupport"/>-->
 <!--                    <include name="testOurInitiatives"/>-->
 <!--                    <include name="testSearchFunc"/>-->
-                    <include name="testAPIKey"/>
+<!--                    <include name="testAPIKey"/>-->
+                    <include name="checkSearchFunc"/>
                 </methods>
             </class>
         </classes>

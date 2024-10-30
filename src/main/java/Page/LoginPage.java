@@ -34,4 +34,5 @@ public class LoginPage {
         String getMsgResultLogin = driver.findElement(By.xpath("//div[@class = 'panel-body']")).getText();
         return getMsgResultLogin;
     }
+
 }

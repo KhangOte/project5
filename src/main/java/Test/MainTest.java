@@ -261,6 +261,31 @@ public class MainTest extends BaseTest {
 
     }
 
+    @Test()
+    public void checkTemperature(){
+
+        String keySearch = "ho chi minh";
+        String temperatureCheck = "°F";
+
+        TopMenu topMenu = new TopMenu(driver);
+        driver.findElement(By.xpath("//input[@placeholder = 'Search city']")).sendKeys(keySearch);
+        driver.findElement(By.xpath("//input[@placeholder = 'Search city']")).sendKeys(Keys.RETURN);
+
+        driver.findElement(By.xpath("//span[@class = 'close-btn']")).click();
+        driver.findElement(By.xpath("//div[@class = 'switch-container']//div[3]")).click();
+        AllureReportManager.saveScreenshotPNG(driver);
+
+        String tempActual = driver.findElement(By.xpath("//span[@class = 'heading']")).getText();
+        String textToCheck = getTextToCheck1(tempActual,temperatureCheck);
+        System.out.println(textToCheck);
+        Assert.assertEquals(textToCheck,temperatureCheck);
+
+    }
+
+    private String getTextToCheck1(String text1, String text2) {
+        int eleToCompere = text1.length() - text2.length();
+        return text1.substring(eleToCompere);
+    }
 
 
     @AfterMethod

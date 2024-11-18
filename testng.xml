@@ -12,7 +12,8 @@
 <!--                    <include name="testOurInitiatives"/>-->
 <!--                    <include name="testSearchFunc"/>-->
 <!--                    <include name="testAPIKey"/>-->
-                    <include name="checkSearchFunc"/>
+<!--                    <include name="checkSearchFunc"/>-->
+                    <include name="checkTemperature"/>
                 </methods>
             </class>
         </classes>
